@@ -34,9 +34,7 @@
                             </div>
                             <NuxtLink class="block bg-slate-800 text-white text-center hover:bg-slate-600 duration-200 py-3" to="/ultimas-atualizacoes">Ver todos de Últimas Atualizações</NuxtLink>
                         </div>
-                        <div class="rounded bg-slate-200">
-                            <BarSection>recomendações</BarSection>
-                        </div>
+                        <Recomendacoes/>
                     </div>
                     <aside class="col-span-1 row-span-2 col-start-3 row-start-1">
                         <div class="bg-slate-200 rounded mb-3">
