@@ -1,0 +1,9 @@
+<template>
+    <Page>
+        <section>
+            <Container>
+                atualizações
+            </Container>
+        </section>
+    </Page>
+</template>

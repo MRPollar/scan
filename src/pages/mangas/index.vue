@@ -1,0 +1,9 @@
+<template>
+    <Page>
+        <section>
+            <Container>
+                mangás
+            </Container>
+        </section>
+    </Page>
+</template>

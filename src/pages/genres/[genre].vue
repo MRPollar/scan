@@ -1,0 +1,9 @@
+<template>
+    <Page>
+        <section>
+            <Container>
+                <h1>genero</h1>
+            </Container>
+        </section>
+    </Page>
+</template>

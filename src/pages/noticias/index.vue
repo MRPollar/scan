@@ -1,0 +1,9 @@
+<template>
+    <Page>
+        <section>
+            <Container>
+                Notícias
+            </Container>
+        </section>
+    </Page>
+</template>
