@@ -2,7 +2,7 @@
     <Page>
         <section>
             <Container>
-                mangás
+                mais lidos
             </Container>
         </section>
     </Page>

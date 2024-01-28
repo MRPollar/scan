@@ -6,6 +6,7 @@ export default interface IStory{
     chapters?:number,
     capa?:string;
     sinopse?:string;
+    avaliable?:number;
     slug?:string;
     genres?:ISubRoute[];
 }

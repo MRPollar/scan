@@ -7,10 +7,10 @@
         </section>
         <section class="py-6">
             <Container>
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="col-span-2">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                    <div class="col-span-1 lg:col-span-2">
                         <div class="rounded bg-slate-200 mb-3">
-                            <BarSection label="ver todos" page-link="/noticias">Notícias</BarSection>
+                            <BarSection label="ver todos" page-link="/noticia">Notícias</BarSection>
                             <div class="px-3 pb-3">
                                 <div class="news">
                                     <div class="whitespace-nowrap flex gap-2">
@@ -29,14 +29,14 @@
                         </div>
                         <div class="rounded bg-slate-200 mb-3">
                             <BarSection label="ver todos" page-link="/ultimas-atualizacoes">Últimas atualizações</BarSection>
-                            <div class="grid grid-cols-2 gap-2 px-6 pb-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 px-6 pb-4">
                                 <StoryCard v-for="story,index in items" :key="index" :story="story"/>
                             </div>
                             <NuxtLink class="block bg-slate-800 text-white text-center hover:bg-slate-600 duration-200 py-3" to="/ultimas-atualizacoes">Ver todos de Últimas Atualizações</NuxtLink>
                         </div>
                         <Recomendacoes/>
                     </div>
-                    <aside class="col-span-1 row-span-2 col-start-3 row-start-1">
+                    <aside class="col-span-1 lg:row-span-2 lg:col-start-3 lg:row-start-1">
                         <div class="bg-slate-200 rounded mb-3">
                             <BarSection>Os 10 mais lidos</BarSection>
                             <div class="py-4 px-6">

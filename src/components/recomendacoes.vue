@@ -1,5 +1,5 @@
 <template>
-    <div class="rounded bg-slate-200">
+    <div class="hidden md:block rounded bg-slate-200">
         <BarSection>recomendações</BarSection>
         <div class="py-4 px-6">
             <ul class="bg-slate-400 grid grid-cols-5 p-1 gap-1 rounded mb-3">
@@ -11,7 +11,7 @@
                     >{{ genre }}</button>
                 </li>
             </ul>
-            <div class="grid grid-cols-5 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6">
                 <template v-for="item,index in storyForGenre" :key="index">
                     <StoryCardH :story="item"/>
                 </template>
@@ -36,15 +36,18 @@ const selectGenre:Ref<string> = ref(genres.value[0]);
 
 const storyForGenre = computed(():IStory[] => {
     let newItems:IStory[] = [];
+    let count:number = 0;
 
     for(const story of items){
         let genArray:ISubRoute[] = story.genres as ISubRoute[];
         for(const genre of genArray){ 
             if(genre.route == selectGenre.value){
                 newItems.push(story);
+                count++;
                 break;
             }
         }
+        if(count == 5) break;
     }
 
     return newItems;
