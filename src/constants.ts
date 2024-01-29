@@ -12,7 +12,7 @@ export const routes: IRoute[] = [
     {
         text: "recentes",
         icon: "pepicons-pop:reload",
-        path: "/recentes",
+        path: "/ultimas-atualizacoes",
         dropdown: false,
     },
     {
@@ -24,14 +24,37 @@ export const routes: IRoute[] = [
     {
         text: "tipos",
         icon: "iconamoon:arrow-down-2-duotone",
-        path: "",
         dropdown: true,
-    },
-    {
-        text: "noticias",
-        icon: "fa-solid:newspaper",
-        path: "/noticia",
-        dropdown: false,
+        dropdowList: [
+            {
+                name:"mangá",
+                path:"manga",
+            },
+            {
+                name:"one-shit",
+                path:"one-shit",
+            },
+            {
+                name:"doujinshi",
+                path:"doujinshi",
+            },
+            {
+                name:"light-novel",
+                path:"light novel",
+            },
+            {
+                name:"manhwa",
+                path:"manhwa",
+            },
+            {
+                name:"manhua",
+                path:"manhua",
+            },
+            {
+                name:"comic",
+                path:"comic",
+            },
+        ]
     }
 ];
 

@@ -2,7 +2,7 @@
     <div class="col-span-1 py-4 flex items-top gap-3 border-b-[1px] border-slate-800">
         <figure>
             <NuxtLink :to="`/manga/${story?.slug}`" :title="story?.name">
-                <img class="max-w-[110px] aspect-[1/1.4]" :src="story?.capa" :srcset="story?.capa" :alt="story?.name"/>
+                <img class="max-w-[110px] aspect-[1/1.4] object-cover" :src="story?.capa" :srcset="story?.capa" :alt="story?.name"/>
             </NuxtLink>
         </figure>
         <div class="py-2">

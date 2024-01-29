@@ -55,6 +55,11 @@
                 </template>
             </Container>
         </section>
+        <section class="py-6" v-if="storyChapter !== undefined">
+            <Container>
+                <Comentarios/>
+            </Container>
+        </section>
     </Page>
 </template>
 

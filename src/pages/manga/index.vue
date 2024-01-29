@@ -2,38 +2,40 @@
     <Page>
         <section class="py-6">
             <Container>
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="col-span-2">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                    <div class="col-span-1 lg:col-span-2">
                         <div class="rounded bg-slate-200 mb-3">
                             <BarSection>lista de mangás</BarSection>
                             <div class="py-4 px-6">
-                                <ul class="pb-3 grid grid-cols-5 gap-4 relative">
-                                    <li v-for="filter,index in filters" :key="index" class="capitalize text-xs">
-                                        <button
-                                            @click="openOptions(index)"
-                                            class="w-full bg-slate-500 text-white hover:bg-slate-800 py-1 cursor-pointer"
-                                            :class="{'bg-slate-800':filter.open}"
-                                        >
-                                            {{ filter.type }}: {{ filter.selected }}
-                                            <Icon name="iconamoon:arrow-down-2-duotone"/>
-                                        </button>
-                                        <ul v-show="filter.open" class="scroll-style">
-                                            <li v-for="option,jindex in filter.options" :key="jindex" @click="selectedOptions(index,option)" class="text-slate-800 cursor-pointer">
-                                                <span :class="{'text-green-50':filter.selected === option}">
-                                                    <Icon name="gg:check-o"/>
-                                                </span>
-                                                {{ option }}
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="capitalize text-xs">
-                                        <button class="w-full text-white bg-slate-800 py-1 cursor-pointer">
-                                            <Icon name="vaadin:search"/>
-                                            Buscar
-                                        </button>
-                                    </li>
-                                </ul>
-                                <div class="grid grid-cols-5 gap-6">
+                                <ClientOnly>
+                                    <ul class="pb-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 relative">
+                                        <li v-for="filter,index in filters" :key="index" class="capitalize text-xs">
+                                            <button
+                                                @click="openOptions(index)"
+                                                class="w-full bg-slate-500 text-white hover:bg-slate-800 py-1 cursor-pointer"
+                                                :class="{'bg-slate-800':filter.open}"
+                                            >
+                                                {{ filter.type }}: {{ filter.selected }}
+                                                <Icon name="iconamoon:arrow-down-2-duotone"/>
+                                            </button>
+                                            <ul v-show="filter.open" class="scroll-style">
+                                                <li v-for="option,jindex in filter.options" :key="jindex" @click="selectedOptions(index,option)" class="text-slate-800 cursor-pointer">
+                                                    <span :class="{'text-green-50':filter.selected === option}">
+                                                        <Icon name="gg:check-o"/>
+                                                    </span>
+                                                    {{ option }}
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="capitalize text-xs">
+                                            <button class="w-full text-white bg-slate-800 py-1 cursor-pointer">
+                                                <Icon name="vaadin:search"/>
+                                                Buscar
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </ClientOnly>
+                                <div class="grid grid-cols-2 lg:grid-cols-5 gap-6">
                                     <template v-for="story,index of items" :key="index">
                                         <StoryCardH :story="story"/>
                                     </template>
@@ -41,7 +43,7 @@
                             </div>
                         </div>
                     </div>
-                    <aside class="col-span-1 row-span-2 col-start-3 row-start-1">
+                    <aside class="col-span-1 lg:row-span-2 lg:col-start-3 lg:row-start-1">
                         <div class="bg-slate-200 rounded mb-3">
                             <BarSection>Os 10 mais lidos</BarSection>
                             <div class="py-4 px-6">

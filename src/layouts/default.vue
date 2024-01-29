@@ -10,22 +10,27 @@
                     <nav class="flex items-center space-x-3">
                         <div class="logo text-4xl font-extrabold uppercase text-white"><NuxtLink to="/">logo</NuxtLink></div>
                         <ul class="flex items-center space-x-4">
-                            <li class="font-semibold capitalize text-lg text-slate-300 hover:text-white duration-200" v-for="route,index in routes" :key="index">
-                                <NuxtLink class="flex items-center gap-1" :to="route.path">
-                                    <template v-if="!route.dropdown">
+                            <li class="font-semibold capitalize text-lg text-slate-300 hover:text-white duration-200" v-for="route,index in routes" :key="index" :class="{'relative':route.dropdown}">
+                                <NuxtLink v-if="!route.dropdown" class="flex items-center gap-1" :to="route.path">
                                         <Icon :name="route.icon"/>
                                         {{ route.text }}
-                                    </template>
-                                    <template v-else>
-                                        {{ route.text }}
-                                        <Icon :name="route.icon"/>
-                                    </template>
                                 </NuxtLink>
+                                <template v-else>
+                                    <div class="flex items-center gap-1 cursor-pointer list-type-event">
+                                        {{ route.text }}
+                                        <Icon :name="route.icon"/>
+                                        <ul class="list-type">
+                                            <li v-for="path in route.dropdowList" class="py-1">
+                                                <NuxtLink class="block hover:bg-slate-800 py-1 px-2 rounded" :to="`/tipo/${path.path}`">{{ path.name }}</NuxtLink>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </template>
                             </li>
                         </ul>
                     </nav>
-                    <form class="w-full max-w-[270px] relative">
-                        <input class="w-full px-[12px] py-[5px] rounded-full outline-none text-slate-800" type="text" name="search" placeholder="Procurar por..."/>
+                    <form @submit.prevent="searchForm" class="w-full max-w-[270px] relative">
+                        <input v-model="searchInputValue" class="w-full px-[12px] py-[5px] rounded-full outline-none text-slate-800" type="text" name="search" placeholder="Procurar por..."/>
                         <span class="text-xl flex items-center justify-center absolute right-[12px] translate-y-[-50%] top-[50%] text-slate-800">
                             <Icon name="fluent:search-24-filled"/>
                         </span>
@@ -40,24 +45,24 @@
                             <NuxtLink to="/">logo</NuxtLink>
                         </div>
                     </nav>
-                    <button  class="w-10 h-10 flex items-center justify-center text-2xl rounded-full bg-white text-slate-800">
+                    <button @click="searchMobile = true" class="w-10 h-10 flex items-center justify-center text-2xl rounded-full bg-white text-slate-800">
                         <Icon name="fluent:search-24-filled"/>
                     </button>
                 </div>
                 <div v-show="nav" class="z-20 w-full absolute top-0 left-0 text-white lg:hidden">
                     <div class="py-6 w-full h-screen min-h-[500px] max-w-[300px] bg-slate-800">
                         <div class="">
-                            <div class="px-6 flex items-center gap-3 mb-5">
+                            <div class="px-6 flex items-center gap-3 mb-11">
                                 <button @click="nav = false" class="w-10 h-10 inline-flex items-center justify-center bg-white text-slate-800 rounded-full text-2xl">
                                     <Icon name="majesticons:close"/>
                                 </button>
                                 <div class="logo text-4xl font-extrabold uppercase text-white">
-                                    <NuxtLink to="/">logo</NuxtLink>
+                                    <NuxtLink @click="nav = false" to="/">logo</NuxtLink>
                                 </div>
                             </div>
                             <ul class="text-left">
-                                <li v-for="route,index in routes" :key="index" class="px-6 capitalize mb-2 text-xl">
-                                    <NuxtLink :to="route.path">
+                                <li v-for="route,index in routes" :key="index" class="px-6 capitalize mb-4 text-xl">
+                                    <NuxtLink @click="nav = false" :to="route.path">
                                         <Icon :name="route.icon"/>
                                         {{ route.text }}
                                     </NuxtLink>
@@ -65,6 +70,14 @@
                             </ul>
                         </div>
                     </div>
+                </div>
+                <div v-show="searchMobile" class="absolute w-full h-full bg-slate-800 top-[50%] left-0 px-3 translate-y-[-50%] block lg:hidden">
+                    <form @submit.prevent="searchForm" class="w-full h-full flex items-center">
+                        <input v-model="searchInputValue" class="w-full px-[12px] py-[5px] rounded-full outline-none text-slate-800" type="text" name="busca" placeholder="Procurar por..."/>
+                    </form>
+                    <button @click="searchMobile = false"  class="absolute text-white translate-y-[-50%] top-[50%] right-4 w-7 h-7 rounded-full bg-slate-800 flex items-center justify-center text-xl">
+                        <Icon name="majesticons:close"/>
+                    </button>
                 </div>
             </Container>
         </div>
@@ -111,6 +124,25 @@
 import { routes } from '~/constants';
 
 const nav:Ref<boolean> = ref(false);
-
+const searchMobile:Ref<boolean> = ref(false);
 const alfabeto:string[] = ['#','0-9','a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+const searchInputValue:Ref<string> = ref('');
+
+const searchForm = async ():Promise<void> => {
+    searchInputValue.value = searchInputValue.value.trim();
+
+    if(searchInputValue.value === '') return;
+    await navigateTo(`/search/?busca=${ searchInputValue.value.toLowerCase() }`);
+    searchMobile.value = false;
+    searchInputValue.value = '';
+}
 </script>
+
+<style scoped>
+.list-type-event .list-type{
+    @apply hidden absolute top-full left-0 bg-slate-600 py-4 px-5 min-w-56 rounded
+}
+.list-type-event:hover .list-type{
+    @apply block text-base font-normal
+}
+</style>

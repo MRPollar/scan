@@ -1,7 +1,7 @@
 <template>
     <Page>
-        <section class="py-6">
-            <Container>
+        <section class="pt-0 pb-6 lg:pt-6">
+            <Container class="px-0">
                 <MyCarousel :items="items"/>
             </Container>
         </section>
@@ -10,29 +10,11 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
                     <div class="col-span-1 lg:col-span-2">
                         <div class="rounded bg-slate-200 mb-3">
-                            <BarSection label="ver todos" page-link="/noticia">Notícias</BarSection>
-                            <div class="px-3 pb-3">
-                                <div class="news">
-                                    <div class="whitespace-nowrap flex gap-2">
-                                        <div v-for="color in colors" :key="color" class="min-w-80 16 max-w-80 py-4">
-                                            <figure class="mb-2">
-                                                <img class="rounded" src="https://animangeek.com/wp-content/uploads/2023/09/elves-anime-1600x900.png" srcset="https://animangeek.com/wp-content/uploads/2023/09/elves-anime-1600x900.png" alt="16 melhores animes de elfos para todos os fãs de orelhas pontudas"/>
-                                            </figure>
-                                            <div class="whitespace-normal px-2">
-                                                <h2 class="font-bold text-base text-slate-800 hover:text-cyan-500 duration-200"><NuxtLink to="/noticias/16-melhores-animes-de-elfos-para-todos-os-fas-de-orelhas-pontudas">16 melhores animes de elfos para todos os fãs de orelhas pontudas</NuxtLink></h2>
-                                                <h3 class="text-xs">07/01/2024</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="rounded bg-slate-200 mb-3">
                             <BarSection label="ver todos" page-link="/ultimas-atualizacoes">Últimas atualizações</BarSection>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-2 px-6 pb-4">
                                 <StoryCard v-for="story,index in items" :key="index" :story="story"/>
                             </div>
-                            <NuxtLink class="block bg-slate-800 text-white text-center hover:bg-slate-600 duration-200 py-3" to="/ultimas-atualizacoes">Ver todos de Últimas Atualizações</NuxtLink>
+                            <NuxtLink class="block bg-slate-800 text-white text-center hover:bg-slate-600 duration-200 py-3 capitalize" to="/ultimas-atualizacoes">Ver todos de Últimas Atualizações</NuxtLink>
                         </div>
                         <Recomendacoes/>
                     </div>
@@ -93,19 +75,3 @@ const colors:string[] = [
     "10"
 ]
 </script>
-
-<style scoped>
-.news{
-    @apply overflow-x-auto space-x-2
-}
-
-.news::-webkit-scrollbar{
-    @apply h-3
-}
-.news::-webkit-scrollbar-track{
-    @apply bg-slate-800 rounded
-}
-.news::-webkit-scrollbar-thumb{
-    @apply bg-slate-400 rounded
-}
-</style>
