@@ -1,5 +1,5 @@
 <template>
     <div class="bg-slate-200 rounded">
-        <BarSection>Cometários</BarSection>
+        <LazyBarSection>Cometários</LazyBarSection>
     </div>
 </template>

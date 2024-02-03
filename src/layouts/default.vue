@@ -62,10 +62,21 @@
                             </div>
                             <ul class="text-left">
                                 <li v-for="route,index in routes" :key="index" class="px-6 capitalize mb-4 text-xl">
-                                    <NuxtLink @click="nav = false" :to="route.path">
+                                    <NuxtLink v-if="!route.dropdown" @click="nav = false" :to="route.path">
                                         <Icon :name="route.icon"/>
                                         {{ route.text }}
                                     </NuxtLink>
+                                    <template v-else>
+                                        <div class=" cursor-pointer" @click="mobileType = !mobileType">
+                                            {{ route.text }}
+                                            <Icon :name="route.icon"/>
+                                            <ul v-show="mobileType" class="bg-slate-600 py-1 px-2 rounded mt-2">
+                                                <li v-for="path in route.dropdowList" class="py-1">
+                                                    <NuxtLink @click="nav = false" class="block hover:bg-slate-800 py-1 px-2 rounded" :to="`/tipo/${path.path}`">{{ path.name }}</NuxtLink>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </template>
                                 </li>
                             </ul>
                         </div>
@@ -127,6 +138,7 @@ const nav:Ref<boolean> = ref(false);
 const searchMobile:Ref<boolean> = ref(false);
 const alfabeto:string[] = ['#','0-9','a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 const searchInputValue:Ref<string> = ref('');
+const mobileType:Ref<boolean> = ref(false);
 
 const searchForm = async ():Promise<void> => {
     searchInputValue.value = searchInputValue.value.trim();

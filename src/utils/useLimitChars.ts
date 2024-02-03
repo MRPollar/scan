@@ -6,6 +6,5 @@ export default function(limit:number, text:string):string{
 
     newText = text.substring(0, limit);
 
-    return newText + "...";
     return newText[newText.length - 1] === " " ? newText.substring(0, newText.length - 2) + '...' : newText + "...";
 }

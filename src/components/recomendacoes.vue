@@ -1,8 +1,8 @@
 <template>
     <div class="hidden md:block rounded bg-slate-200">
-        <BarSection>recomendações</BarSection>
+        <LazyBarSection>recomendações</LazyBarSection>
         <div class="py-4 px-6">
-            <ul class="bg-slate-400 grid grid-cols-5 p-1 gap-1 rounded mb-3">
+            <!-- <ul class="bg-slate-400 grid grid-cols-5 p-1 gap-1 rounded mb-3">
                 <li v-for="genre,index in genres" :key="index" class="text-white">
                     <button
                         class="w-full cursor-pointer rounded capitalize"
@@ -15,41 +15,32 @@
                 <template v-for="item,index in storyForGenre" :key="index">
                     <StoryCardH :story="item"/>
                 </template>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { items } from '~/constants';
-import type IStory from '~/interfaces/IStory';
-import type ISubRoute from '~/interfaces/ISubRoute';
+import type IStory from '~/core/interfaces/IStory';
+import type IGenre from '~/core/interfaces/IGenre';
+const selectGenre:Ref<string | null> = ref(null);
 
-const genres:Ref<string[]> = ref([
-    "romance",
-    "sobrenatural",
-    "magia",
-    "seinen",
-    "shounen"
-]);
-const selectGenre:Ref<string> = ref(genres.value[0]);
+// const storyForGenre = computed(():IStory[] => {
+//     let newItems:IStory[] = [];
+//     let count:number = 0;
 
-const storyForGenre = computed(():IStory[] => {
-    let newItems:IStory[] = [];
-    let count:number = 0;
+//     for(const story of items){
+//         let genArray:IGenre[] = story.genres as IGenre[];
+//         for(const genre of genArray){ 
+//             if(genre.genre == selectGenre.value){
+//                 newItems.push(story);
+//                 count++;
+//                 break;
+//             }
+//         }
+//         if(count == 5) break;
+//     }
 
-    for(const story of items){
-        let genArray:ISubRoute[] = story.genres as ISubRoute[];
-        for(const genre of genArray){ 
-            if(genre.route == selectGenre.value){
-                newItems.push(story);
-                count++;
-                break;
-            }
-        }
-        if(count == 5) break;
-    }
-
-    return newItems;
-})
-</script>
+//     return newItems;
+// })
+</script>~/core/classes/interfaces/IStory~/core/classes/interfaces/IGenre

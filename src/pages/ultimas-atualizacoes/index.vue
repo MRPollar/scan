@@ -5,13 +5,13 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
                     <div class="col-span-1 lg:col-span-2">
                         <div class="rounded bg-slate-200 mb-3">
-                            <BarSection>lista de mangás</BarSection>
+                            <BarSection>últimas atualizações</BarSection>
                             <div class="py-4 px-6">
                                 
-                                <div class="grid grid-cols-2 lg:grid-cols-5 gap-6">
-                                    <template v-for="story,index of items" :key="index">
+                                <div class="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                                    <!-- <template v-for="story,index of items" :key="index">
                                         <StoryCardH :story="story"/>
-                                    </template>
+                                    </template> -->
                                 </div>
                             </div>
                         </div>
@@ -58,5 +58,5 @@
 </template>
 
 <script setup lang="ts">
-import { genres, items } from '~/constants';
+import { genres } from '~/constants';
 </script>

@@ -1,6 +1,6 @@
 <template>
     <Page>
-        <section class="py-6">
+        <!-- <section class="py-6">
             <Container>
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
                     <div class="col-span-1 lg:col-span-2">
@@ -50,12 +50,12 @@
                     </aside>
                 </div>
             </Container>
-        </section>
+        </section> -->
     </Page>
 </template>
 
 <script setup lang="ts">
-import { genres, items } from "~/constants";
+// import { genres } from "~/constants";
 const route = useRoute();
 console.log(route.query.busca);
 

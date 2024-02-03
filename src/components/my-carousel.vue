@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type IStory from '~/interfaces/IStory';
+import type IStory from '~/core/interfaces/IStory';
 defineProps(['items']) as IStory;
 </script>
 
@@ -34,7 +34,7 @@ defineProps(['items']) as IStory;
             <Navigation />
             <Pagination />
         </template>
-  </Carousel>
+    </Carousel>
 </template>
 
 <style scoped>
@@ -66,4 +66,4 @@ defineProps(['items']) as IStory;
 .carousel__pagination-button{
     @apply w-2 h-2 inline-block bg-green-500
 }
-</style>
+</style>~/core/classes/interfaces/IStory
