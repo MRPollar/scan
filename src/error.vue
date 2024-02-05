@@ -1,11 +1,11 @@
 <template>
     <NuxtLayout>
-        <Page>
+        <LazyPage>
             <section class="py-6">
-                <Container>
+                <LazyContainer>
                     Error
-                </Container>
+                </LazyContainer>
             </section>
-        </Page>
+        </LazyPage>
     </NuxtLayout>
 </template>

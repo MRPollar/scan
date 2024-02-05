@@ -11,14 +11,14 @@
         <Meta name="twitter:image" :content="story?.image"/>
         <Meta name="twitter:card" content="summary_large_image"/>
     </Head>
-    <Page class="relative">
+    <LazyPage class="relative">
         <section class="bg-slate-900 absolute w-full top-0 left-0 z-10">
             <figure class="w-full overflow-hidden">
                 <img class="w-full object-cover object-center blur-lg h-80" :src="story?.image" :srcset="story?.image" alt=""/>
             </figure>
         </section>
         <section class="relative pt-[160px] pb-11 z-20">
-            <Container>
+            <LazyContainer>
                 <div class="grid grid-cols-1 lg:grid-cols-5 gap-3">
 
 
@@ -27,7 +27,14 @@
                         
                         <figure class="mb-3">
                             <LazySkeleton v-if="pending" class="w-full mx-auto max-w-[300px] lg:max-w-none aspect-[1/1.4]"/>
-                            <img v-else class="w-full mx-auto border-4 lg:border-0 border-slate-800 max-w-[300px] lg:max-w-none aspect-[1/1.4] object-cover" :src="story?.image" :srcset="story?.image" :alt="story?.name"/>
+                            <img
+                                v-else
+                                class="w-full mx-auto border-4 lg:border-0 border-slate-800 max-w-[300px] lg:max-w-none aspect-[1/1.4] object-cover"
+                                :src="story?.image"
+                                :srcset="story?.image"
+                                :alt="story?.name"
+                                loading="lazy"
+                            />
                         </figure>
                         <LazySkeleton v-if="pending" class="w-full max-w-56 h-6 mx-auto mb-3 rounded lg:hidden"/>
                         <h2 v-else class="text-xl font-extrabold text-slate-800 mb-3 text-center lg:hidden">{{ story?.name }}</h2>
@@ -82,7 +89,7 @@
                         <div class="mb-4 lg:mb-16 text-center">
                             <a class="bg-cyan-500 text-white py-2 px-3 capitalize inline-block" href="https://www.linkedin.com/in/alan-tavares-5a3363247/" target="_blank">
                                 <span class="relative bottom-[2px]">
-                                    <Icon name="bi:linkedin"/>
+                                    <LazyIcon name="bi:linkedin"/>
                                 </span>
                                 likedin
                             </a>
@@ -133,10 +140,10 @@
                     </div>
                     <!-- sinopse e cápitulos - fim -->
                 </div>
-            </Container>
+            </LazyContainer>
         </section>
         <section class="py-6">
-            <Container>
+            <LazyContainer>
                 <div class="bg-slate-200 rounded mb-3">
                     <LazyBarSection>séries relacionadas</LazyBarSection>
                     <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-7 lg:grid-cols-5 py-4 px-6 gap-6">
@@ -145,14 +152,14 @@
                         </template> -->
                     </div>
                 </div>
-            </Container>
+            </LazyContainer>
         </section>
         <section class="py-6">
-            <Container>
+            <LazyContainer>
                 <LazyComentarios/>
-            </Container>
+            </LazyContainer>
         </section>
-    </Page>
+    </LazyPage>
 </template>
 
 <script lang="ts" setup>

@@ -11,41 +11,45 @@
         <Meta name="twitter:image" :content="chapter?.image"/>
         <Meta name="twitter:card" content="summary_large_image"/>
     </Head>
-    <Page>
+    <LazyPage>
         <section class="py-6">
-            <Container>
+            <LazyContainer>
                 <h1 class="text-center text-slate-800 font-bold text-xl mb-2 capitalize">{{ chapter?.name_story }} capítulo {{ chapter?.chapter_number }}</h1>
                 <h2 class="text-center text-sm text-slate-500 mb-2">Todos capítulos estão em <NuxtLink class="text-slate-950 hover:text-slate-800 font-extrabold" :to="`/manga/${chapter?.slug_story}`">{{ chapter?.name_story }}</NuxtLink></h2>
                 <div class="text-center mb-2">
                     <a class="bg-cyan-500 text-white py-2 px-3 capitalize inline-block" href="https://www.linkedin.com/in/alan-tavares-5a3363247/" target="_blank">
                         <span class="relative bottom-[2px]">
-                            <Icon name="bi:linkedin"/>
+                            <LazyIcon name="bi:linkedin"/>
                         </span>
                         likedin
                     </a>
                 </div>
                 <h3 class="text-slate-500 text-center text-sm">Ler <span class="font-extrabold">{{ chapter?.name_story }}</span> Capítulo {{ chapter?.chapter_number }} Online , <span class="font-extrabold">{{ chapter?.name_story }}</span> Online, Disponibilizar offline <span class="font-extrabold">{{ chapter?.name_story }}</span></h3>
-            </Container>
+            </LazyContainer>
         </section>
         <section class="py-6" v-if="chapter?.chapter_pages !== undefined && chapter?.chapter_number !== 0">
-            <Container>
+            <LazyContainer>
                 <ClientOnly>
                     <div class="mb-3 max-w-[200px] md:max-w-md relative">
                         <div @click="chapter_list_visible = !chapter_list_visible" :class="{'rounded-b':!chapter_list_visible}" class="text-white bg-slate-600 py-1 px-2 cursor-pointer flex items-center justify-between rounded-t">
                             <span class="capitalize text-sm md:text-base">
-                                <Icon name="wpf:books"/>
+                                <LazyIcon name="wpf:books"/>
                                 {{ chapter?.chapter_name }}
                             </span>
                             <span class="text-2xl md:text-3xl inline-flex items-center duration-200" :class="{'rotate-180':chapter_list_visible}">
-                                <Icon name="ri:arrow-drop-down-line"/>
+                                <LazyIcon name="ri:arrow-drop-down-line"/>
                             </span>
                         </div>
                         <ul v-if="chapter_list_visible" class="list_chapters">
 
                             <template v-for="chapter_select,index in chapter?.all_chapters">
                                 <li class="my-1">
-                                    <NuxtLink :to="`/manga/${chapter_select.story_slug}/${chapter_select.chapter_name}`" class="block p-2 hover:bg-slate-800" :class="{'bg-slate-800':chapter_select.chapter_name == chapter?.chapter_name}">
-                                        <Icon name="raphael:book"/>
+                                    <NuxtLink
+                                        :to="`/manga/${chapter_select.story_slug}/${chapter_select.chapter_name}`"
+                                        class="block p-2 hover:bg-slate-800"
+                                        :class="{'bg-slate-800':chapter_select.chapter_name == chapter?.chapter_name}"
+                                    >
+                                        <LazyIcon name="raphael:book"/>
                                         {{ chapter_select.chapter_name }}
                                     </NuxtLink>
                                 </li>
@@ -61,13 +65,17 @@
                     </div>
                     <div>
                         <NuxtLink v-if="chapter?.chapter_number > 1" class="content-value" :to="`/manga/${chapter?.slug_story}/capitulo_${chapter?.chapter_number - 1}`">anterior</NuxtLink>
-                        <NuxtLink v-if="chapter?.count_chapters > 1 && chapter?.chapter_number < chapter?.count_chapters" class="content-value" :to="`/manga/${chapter?.slug_story}/capitulo_${chapter?.chapter_number + 1}`">Próximo</NuxtLink>
+                        <NuxtLink
+                            v-if="chapter?.count_chapters > 1 && chapter?.chapter_number < chapter?.count_chapters"
+                            class="content-value"
+                            :to="`/manga/${chapter?.slug_story}/capitulo_${chapter?.chapter_number + 1}`"
+                        >Próximo</NuxtLink>
                     </div>
                 </div>
-            </Container>
+            </LazyContainer>
         </section>
         <section class="py-6">
-            <Container class="max-w-4xl">
+            <LazyContainer class="max-w-4xl">
                 <template v-if="chapter?.chapter_pages == undefined || chapter?.chapter_pages.length == 0">
                     <figure>
                         <img src="/images/404.jpg" srcset="/images/404.jpg" alt="not found"/>
@@ -80,14 +88,14 @@
                         </figure>
                     </div>
                 </template>
-            </Container>
+            </LazyContainer>
         </section>
         <section class="py-6" v-if="chapter?.chapter_pages !== undefined">
-            <Container>
+            <LazyContainer>
                 <LazyComentarios/>
-            </Container>
+            </LazyContainer>
         </section>
-    </Page>
+    </LazyPage>
 </template>
 
 <script setup lang="ts">
@@ -96,11 +104,11 @@ const route = useRoute();
 const chapter_list_visible:Ref<boolean> = ref(false);
 
 const { data:chapter } = await useAsyncData(
-    `chapter_${route.params.chapter[1]}_${route.params.chapter[0]}`,
+    `chapter_${route.params.slug}_${route.params.chapter}`,
     async () => $fetch("http://192.168.11.7/panel-scan/api/chapter.php",{
         params:{
-            slug: route.params.chapter[0],
-            chapter: route.params.chapter[1]
+            slug: route.params.slug,
+            chapter: route.params.chapter
         },
         headers:{
             "Content-Type": "application/json",

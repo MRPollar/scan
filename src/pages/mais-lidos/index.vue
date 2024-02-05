@@ -1,9 +1,9 @@
 <template>
-    <Page>
+    <LazyPage>
         <section>
-            <Container>
+            <LazyContainer>
                 mais lidos
-            </Container>
+            </LazyContainer>
         </section>
-    </Page>
+    </LazyPage>
 </template>

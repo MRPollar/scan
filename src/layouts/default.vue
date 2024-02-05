@@ -5,29 +5,32 @@
     </Head>
     <header class="bg-slate-800 fixed w-full top-0 left-0 z-50">
         <div class="w-full relative py-5">
-            <Container>
+            <LazyContainer>
                 <div class="hidden lg:flex items-center justify-between">
                     <nav class="flex items-center space-x-3">
                         <div class="logo text-4xl font-extrabold uppercase text-white"><NuxtLink to="/">logo</NuxtLink></div>
+                        <!-- menu desktop -->
                         <ul class="flex items-center space-x-4">
-                            <li class="font-semibold capitalize text-lg text-slate-300 hover:text-white duration-200" v-for="route,index in routes" :key="index" :class="{'relative':route.dropdown}">
-                                <NuxtLink v-if="!route.dropdown" class="flex items-center gap-1" :to="route.path">
+                            <li class="font-semibold capitalize text-lg text-slate-300 hover:text-white duration-200" v-for="route,index in routes" :key="index">
+                                <NuxtLink class="flex items-center gap-1" :to="route.path">
                                         <Icon :name="route.icon"/>
                                         {{ route.text }}
                                 </NuxtLink>
-                                <template v-else>
-                                    <div class="flex items-center gap-1 cursor-pointer list-type-event">
-                                        {{ route.text }}
-                                        <Icon :name="route.icon"/>
-                                        <ul class="list-type">
-                                            <li v-for="path in route.dropdowList" class="py-1">
-                                                <NuxtLink class="block hover:bg-slate-800 py-1 px-2 rounded" :to="`/tipo/${path.path}`">{{ path.name }}</NuxtLink>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </template>
+                            </li>
+                            <li class="font-semibold capitalize text-lg text-slate-300 hover:text-white duration-200 relative">
+                                <div class="flex items-center gap-1 cursor-pointer list-type-event">
+                                    tipo
+                                    <Icon name="iconamoon:arrow-down-2-duotone"/>
+                                    <ul class="list-type">
+                                        <li v-for="path in dropdowList" class="py-1">
+                                            <NuxtLink class="block hover:bg-slate-800 py-1 px-2 rounded" :to="`/type/${path.path}/1`">{{ path.name }}</NuxtLink>
+                                        </li>
+                                    </ul>
+                                </div>
                             </li>
                         </ul>
+                        <!-- end menu desktop -->
+                        
                     </nav>
                     <form @submit.prevent="searchForm" class="w-full max-w-[270px] relative">
                         <input v-model="searchInputValue" class="w-full px-[12px] py-[5px] rounded-full outline-none text-slate-800" type="text" name="search" placeholder="Procurar por..."/>
@@ -60,25 +63,27 @@
                                     <NuxtLink @click="nav = false" to="/">logo</NuxtLink>
                                 </div>
                             </div>
+                            <!-- menu mobile -->
                             <ul class="text-left">
                                 <li v-for="route,index in routes" :key="index" class="px-6 capitalize mb-4 text-xl">
-                                    <NuxtLink v-if="!route.dropdown" @click="nav = false" :to="route.path">
+                                    <NuxtLink @click="nav = false" :to="route.path">
                                         <Icon :name="route.icon"/>
                                         {{ route.text }}
                                     </NuxtLink>
-                                    <template v-else>
-                                        <div class=" cursor-pointer" @click="mobileType = !mobileType">
-                                            {{ route.text }}
-                                            <Icon :name="route.icon"/>
-                                            <ul v-show="mobileType" class="bg-slate-600 py-1 px-2 rounded mt-2">
-                                                <li v-for="path in route.dropdowList" class="py-1">
-                                                    <NuxtLink @click="nav = false" class="block hover:bg-slate-800 py-1 px-2 rounded" :to="`/tipo/${path.path}`">{{ path.name }}</NuxtLink>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </template>
+                                </li>
+                                <li class="px-6 capitalize mb-4 text-xl">
+                                    <div class=" cursor-pointer" @click="mobileType = !mobileType">
+                                        <Icon name="iconamoon:arrow-down-2-duotone"/>
+                                        tipo
+                                        <ul v-show="mobileType" class="bg-slate-600 py-1 px-2 rounded mt-2">
+                                            <li v-for="path in dropdowList" class="py-1">
+                                                <NuxtLink @click="nav = false" class="block hover:bg-slate-800 py-1 px-2 rounded" :to="`/type/${path.path}/1`">{{ path.name }}</NuxtLink>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </li>
                             </ul>
+                            <!-- end menu mobile -->
                         </div>
                     </div>
                 </div>
@@ -90,14 +95,14 @@
                         <Icon name="majesticons:close"/>
                     </button>
                 </div>
-            </Container>
+            </LazyContainer>
         </div>
     </header>
     <slot/>
 
     <footer>
         <div class="bg-slate-800">
-            <Container>
+            <LazyContainer>
                 <ul class="flex items-center justify-center gap-5 text-white py-2 text-xs md:text-base">
                     <li class="capitalize">
                         <NuxtLink to="/">Termos de uso</NuxtLink>
@@ -115,10 +120,10 @@
                         <NuxtLink to="/">DMCA</NuxtLink>
                     </li>
                 </ul>
-            </Container>
+            </LazyContainer>
         </div>
         <div class="py-6 bg-slate-400">
-            <Container>
+            <LazyContainer>
                 <h3 class="text-base flex flex-wrap items-end justify-center gap-4 text-slate-800 mb-3"><span class="text-xl font-bold">Lista de A-Z</span><span class="text-xl">|</span><span class="text-center">Procurando séries alfabeticamente ordenadas de A para Z</span></h3>
                 <ul class="flex items-center flex-wrap justify-center gap-1 mb-6">
                     <li v-for="letra,index in alfabeto" :key="index">
@@ -126,7 +131,7 @@
                     </li>
                 </ul>
                 <p class="text-xs max-w-2xl mx-auto text-center">Direitos autorais e marcas para mangás, e outros materiais promocionais são mantidos por seus respectivos proprietários e a sua utilização é permitida nos termos da cláusula de uso justo da Lei de Direitos Autorais Americana. (Copyrights and trademarks for the manga, and other promotional materials are held by their respective owners and their use is allowed under the fair use clause of the U.S. Copyright Law.)</p>
-            </Container>
+            </LazyContainer>
         </div>
     </footer>
 </template>
@@ -139,6 +144,37 @@ const searchMobile:Ref<boolean> = ref(false);
 const alfabeto:string[] = ['#','0-9','a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 const searchInputValue:Ref<string> = ref('');
 const mobileType:Ref<boolean> = ref(false);
+
+const dropdowList:Array<{name:string, path:string}> = [
+    {
+        name:"mangá",
+        path:"manga",
+    },
+    {
+        name:"one-shit",
+        path:"one-shit",
+    },
+    {
+        name:"doujinshi",
+        path:"doujinshi",
+    },
+    {
+        name:"light-novel",
+        path:"light novel",
+    },
+    {
+        name:"manhwa",
+        path:"manhwa",
+    },
+    {
+        name:"manhua",
+        path:"manhua",
+    },
+    {
+        name:"comic",
+        path:"comic",
+    },
+]
 
 const searchForm = async ():Promise<void> => {
     searchInputValue.value = searchInputValue.value.trim();

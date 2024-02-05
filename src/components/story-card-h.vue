@@ -1,9 +1,9 @@
 <template>
     <div>
-        <figure class="mb-2">
+        <figure class="mb-2 w-full aspect-[1/1.4]">
             <LazySkeleton v-if="loading" class="w-full aspect-[1/1.4]"/>
             <NuxtLink v-else :to="`/manga/${story.slug}`" :title="story?.name">
-                <img class="w-full aspect-[1/1.4] object-cover object-center" :src="story.image" :srcset="story.image" :alt="story.name"/>
+                <img class="w-full aspect-[1/1.4] object-cover object-center" :src="story.image" :srcset="story.image" :alt="story.name" loading="lazy"/>
             </NuxtLink>
         </figure>
         <div :class="{'px-[2px]':!loading}">

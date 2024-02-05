@@ -1,7 +1,7 @@
 <template>
-    <Page>
+    <LazyPage>
         <section class="py-6">
-            <Container>
+            <LazyContainer>
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
                     <div class="col-span-1 lg:col-span-2">
                         <div class="rounded bg-slate-200 mb-3">
@@ -16,12 +16,12 @@
                                                 :class="{'bg-slate-800':filter.open}"
                                             >
                                                 {{ filter.type }}: {{ filter.selected }}
-                                                <Icon name="iconamoon:arrow-down-2-duotone"/>
+                                                <LazyIcon name="iconamoon:arrow-down-2-duotone"/>
                                             </button>
                                             <ul v-show="filter.open" class="scroll-style">
                                                 <li v-for="option,jindex in filter.options" :key="jindex" @click="selectedOptions(index,option)" class="text-slate-800 cursor-pointer">
                                                     <span :class="{'text-green-50':filter.selected === option}">
-                                                        <Icon name="gg:check-o"/>
+                                                        <LazyIcon name="gg:check-o"/>
                                                     </span>
                                                     {{ option }}
                                                 </li>
@@ -79,9 +79,9 @@
                         </div>
                     </aside>
                 </div>
-            </Container>
+            </LazyContainer>
         </section>
-    </Page>
+    </LazyPage>
 </template>
 
 

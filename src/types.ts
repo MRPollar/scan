@@ -1,12 +1,12 @@
 import type IStory from "~/core/interfaces/IStory";
-import type IGenre from "~/core/interfaces/IGenre";
+import type IUpdate from "~/core/interfaces/IUpdate";
 
 export type DataRes = {
-    storys:string;
+    updates:string;
     mostRead:string;
 }
 
 export type DataResReturn = {
-    storys:{storys:IStory[],total:number};
+    updates:{storys:IUpdate[],total_pages:number};
     mostRead:IStory[];
 }

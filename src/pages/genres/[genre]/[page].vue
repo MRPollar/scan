@@ -1,9 +1,14 @@
 <template>
-    <Page>
-        <section class="py-6 min-h-screen">
-            <Container class="max-w-6xl">
+    <LazyPage>
+        <section class="py-6 min-h-96">
+            <LazyContainer class="max-w-6xl">
                 <div class="bg-slate-200 rounded">
-                    <LazyBarSection>{{ data?.genre }}</LazyBarSection>
+                    <LazyBarSection>
+                        <LazySkeleton v-if="pending" class="min-w-[150px] h-6 rounded"/>
+                        <template v-else>
+                            {{ data?.genre }}
+                        </template>
+                    </LazyBarSection>
                     <div class="py-4 px-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 min-h-[416px]">
                         <!-- renderização de cards -->
                         <template v-if="data?.storys.length != 0 && (!pending || pending)">
@@ -36,58 +41,40 @@
                             <LazyStoryCardH v-for="number in 3" :key="number"/>
                         </template>
                     </div>
-                    <ClientOnly>
-                        <div class="px-6 py-4 flex items-center justify-center" v-if="Number(data?.pages_qt) > 1">
-                            <nav class="bg-slate-800 rounded-xl border-[1px] border-slate-600 text-white">
-                                <ul class="pagination">
-                                    <li class="border-r-[1px] border-slate-600">
-                                        <NuxtLink :to="`/genres/${route.params.genre[0]}/1`" class="nav-link">Primeira</NuxtLink>
-                                    </li>
-                                    
-
-                                    <template v-for="pag_number in pag_ant(Number(route.params.genre[1]), 2)" :key="pag_number">
-                                        <li class="border-r-[1px] border-slate-600">
-                                            <NuxtLink class="nav-link" :to="`/genres/${route.params.genre[0]}/${pag_number}`">{{ pag_number }}</NuxtLink>
-                                        </li>
-                                    </template>
-
-                                    <li class="border-r-[1px] border-slate-600">
-                                        <NuxtLink class="nav-link bg-slate-600" :to="`/genres/${route.params.genre[0]}/${route.params.genre[1]}`">{{ route.params.genre[1] }}</NuxtLink>
-                                    </li>
-
-
-                                    <template v-if="Number(data?.pages_qt) > 1">
-                                        <template v-for="number,index in 2" :key="index">
-                                            <li v-if="number + Number(route.params.genre[1]) <= Number(data?.pages_qt)" class="border-r-[1px] border-slate-600">
-                                                <NuxtLink  class="nav-link" :to="create_link(number + Number(route.params.genre[1]))">
-                                                    {{ number + Number(route.params.genre[1]) }}
-                                                </NuxtLink>
-                                            </li>
-                                        </template>
-                                    </template>
-                                    <li>
-                                        <NuxtLink :to="`/genres/${route.params.genre[0]}/${data?.pages_qt}`" class="nav-link">Última</NuxtLink>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </ClientOnly>
+                    <Pagination :base-url="`/genres/${route.params.genre}`" :page="Number(route.params.page)" :total="data?.pages_qt"/>
                     
                 </div>
-            </Container>
+            </LazyContainer>
         </section>
-    </Page>
+        <section class="py-6">
+            <LazyContainer class="max-w-6xl">
+                <div class="bg-slate-800 rounded min-h-[200px]">
+                    <LazyBarSection class="text-white border-white">gêneros</LazyBarSection>
+                    <div class="p-4">
+                        <ul class="bg-slate-600 rounded p-3 grid grid-cols-4 gap-3">
+                            <template v-for="genre in genres">
+                                <NuxtLink
+                                    :to="`/genres/${genre.genre_slug}/1`"
+                                    class="h-auto rounded p-1 text-center text-white"
+                                    :class="{'bg-slate-800':genre.genre_slug == route.params.genre, 'hover:bg-slate-700 duration-200':genre.genre_slug !== route.params.genre}"
+                                >
+                                    {{ genre.genre }}
+                                </NuxtLink>
+                            </template>
+                        </ul>
+                    </div>
+                    
+                </div>
+            </LazyContainer>
+        </section>
+    </LazyPage>
 </template>
 
 <script setup lang="ts">
 import type IStory from "~/core/interfaces/IStory";
+import type IGenre from "~/core/interfaces/IGenre";
 import { host } from "~/constants";
 const route = useRoute();
-const loading:Ref<boolean> = ref(false);
-
-if(route.params.genre.length != 2){
-    await navigateTo(`/genres/${route.params.genre[0]}/1`);
-}
 
 type GenreStory = {
     genre?:string;
@@ -98,12 +85,20 @@ type GenreStory = {
     pages_qt:number;
 }
 
+const { data:genres } = await useFetch(`${host}genres.php`,{
+    lazy: true,
+    transform(data:string){
+        const genres_parse = JSON.parse(data) as IGenre[]
+        return genres_parse
+    }
+});
+
 const { data, error, pending, refresh:refresh_story } = await useLazyAsyncData(
-    `genre:${route.params.genre[0]}-${route.params.genre[1]}`,
+    `genre:${route.params.genre}-${route.params.page}`,
     async ():Promise<string> => await $fetch(`${host}genre-storys.php`,{
         params:{
-            slug: route.params.genre[0],
-            page: route.params.genre[1]
+            slug: route.params.genre,
+            page: route.params.page
         },
         headers: { "Content-Type": "application/json" }
     }),
@@ -114,7 +109,7 @@ const { data, error, pending, refresh:refresh_story } = await useLazyAsyncData(
             return json
         },
     }
-)
+);
 if(
     (data.value?.status !== "200" && pending.value == false) ||
     (error.value && pending.value == false)
@@ -125,7 +120,6 @@ if(
 const pag_ant = (start:number, end:number):Array<number> => {
     return Array.from({length: start - end + 1}, (_, i) => i + 1);
 }
-const create_link = (p:number):string => `/genres/${route.params.genre[0]}/${p}`
 
 const story_reload = () => refresh_story();
 
